@@ -1,6 +1,6 @@
 # the-starter-kit
 
-[npm package](https://www.npmjs.com/package/the-starter-kit) · Publication pending.
+[npm package](https://www.npmjs.com/package/the-starter-kit)
 
 A Cloudflare Workers app generator for the Wolff fleet. Choose vinext or TanStack Start; both receive the same components, fonts, tokens, theme controls, and responsive layout.
 
@@ -9,6 +9,17 @@ bunx the-starter-kit my-app
 npx the-starter-kit my-app
 ```
 
+If Bun rejects a newly published version because of `minimum-release-age`, use `npx` or wait three days. To explicitly trust this CLI immediately, add `"the-starter-kit"` to the existing `install.minimumReleaseAgeExcludes` array in your applicable `bunfig.toml`, preserving any other exclusions and the three-day baseline.
+
+Alternatively, bypass the age rule for a global install, then run the installed CLI:
+
+```sh
+bun add --global the-starter-kit --minimum-release-age 0
+the-starter-kit my-app
+```
+
+Omitting a version resolves the npm `latest` tag. Repeat the global install command to update the installed CLI.
+
 The interactive CLI asks for the framework, sample navigation, and package manager. Bun is the default when installed; npm is always selectable. Sample navigation follows the-system-one: desktop navigation, background-matched mobile bottom bar, measured gradient underline, animated page changes, swipe gestures, and reduced-motion support.
 
 ```sh
@@ -16,7 +27,7 @@ npx the-starter-kit my-app --framework tanstack-start --navigation --package-man
 bunx the-starter-kit my-app --framework vinext --no-navigation
 ```
 
-These commands become available after npm publication. To try the unpublished checkout, run `node bin/the-starter-kit.mjs my-app` or install its `npm pack` tarball.
+To try a local checkout, run `node bin/the-starter-kit.mjs my-app` or install its `npm pack` tarball.
 
 ## Included in every app
 
@@ -48,4 +59,10 @@ Smoke tests create fresh temporary fixtures for both frameworks with and without
 
 Lighthouse measures production previews or deployed URLs. Vite/workerd preview responses are uncompressed, unlike Cloudflare's production edge. `scripts/compressed-preview.mjs` provides an explicitly labeled local gzip simulation for comparison; it does not prove deployed performance. See [validation notes](docs/validation.md) for recorded measurements and their limits. Do not change throttling, suppress audits, or call a simulation a deployed result to satisfy the score budget.
 
-Run `npm pack`, inspect the tarball, then `npm publish --access public` when you are ready to release. Publishing remains a separate action.
+## Releases
+
+`.github/workflows/ci.yml` runs the maintainer checks, all four framework/navigation smoke fixtures, production browser checks, and a package dry run on pull requests and pushes to `main`. After those pass on `main`, it publishes the version in `package.json` if that version is not already on npm. Bump the version before pushing a release; an unchanged version skips publication. You can also rerun CI from GitHub Actions or with `gh workflow run ci.yml --ref main`.
+
+Publishing uses npm trusted publishing (OIDC), with no `NPM_TOKEN` or `NODE_AUTH_TOKEN` secret. In the npm package settings, configure a GitHub Actions trusted publisher with owner `MrBrunoWolff`, repository `the-starter-kit`, workflow filename `ci.yml`, and no environment name. Enable the allowed action for direct `npm publish`. See the [npm trusted publishing guide](https://docs.npmjs.com/trusted-publishers/). The package must exist before configuring its trusted publisher; this package has already been published.
+
+For a manual release, run the maintainer checks, inspect `npm pack --dry-run`, authenticate with npm, then run `npm publish --access public`.

@@ -1,0 +1,53 @@
+{
+  "name": "the-starter-kit",
+  "version": "0.1.0",
+  "description": "The Wolff fleet starter: vinext or TanStack Start, one design, Cloudflare Workers, and quality tools.",
+  "keywords": [
+    "bun",
+    "cloudflare",
+    "scaffold",
+    "tanstack-start",
+    "vinext",
+    "workers"
+  ],
+  "homepage": "https://github.com/MrBrunoWolff/the-starter-kit#readme",
+  "bugs": {
+    "url": "https://github.com/MrBrunoWolff/the-starter-kit/issues"
+  },
+  "license": "MIT",
+  "author": "Bruno Wolff",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrBrunoWolff/the-starter-kit.git"
+  },
+  "bin": {
+    "the-starter-kit": "bin/the-starter-kit.mjs"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "templates",
+    "LICENSE",
+    "docs"
+  ],
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "lint": "oxlint bin lib tests scripts e2e",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "check": "npm run lint && npm run format:check && npm test",
+    "test:smoke": "node scripts/smoke.mjs",
+    "test:e2e": "playwright test",
+    "prepublishOnly": "npm run check"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "lighthouse": "^13.5.0",
+    "oxfmt": "0.70.0",
+    "oxlint": "1.85.0"
+  },
+  "engines": {
+    "node": ">=22.19"
+  }
+}

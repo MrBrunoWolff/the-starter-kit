@@ -1,0 +1,1 @@
+{ "ignorePatterns": [".agents/**", "templates/common/.agents/**", ".smoke/**"] }

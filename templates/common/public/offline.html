@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#fafafa" />
+    <title>You're offline</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-content: center;
+        padding: 2rem;
+        text-align: center;
+        font-family: system-ui, sans-serif;
+        background: #fafafa;
+        color: #050505;
+      }
+      h1 {
+        font-size: 2.5rem;
+      }
+      p {
+        max-width: 40ch;
+        line-height: 1.6;
+      }
+      a {
+        color: inherit;
+      }
+      @media (prefers-color-scheme: dark) {
+        body {
+          background: #050505;
+          color: #fafafa;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>You're offline</h1>
+      <p>Reconnect to open the app. Your next idea will be here when you return.</p>
+      <a href="/">Try again</a>
+    </main>
+  </body>
+</html>

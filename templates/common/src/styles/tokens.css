@@ -1,0 +1,203 @@
+:root {
+  --font-space-grotesk: "Space Grotesk";
+  --page-measure: 1100px;
+  /* Base (light) theme defaults. These MUST live on the bare :root so
+     `html { background-color: var(--background) }` always resolves — even
+     before a data-theme is stamped and in browsers/states where neither
+     prefers-color-scheme media query matches (e.g. `no-preference`). Without a
+     base value `var(--background)` falls back to its initial value
+     `transparent`, exposing the backdrop as a full-screen flash on load.
+     `[data-theme='dark']` and the dark prefers-color-scheme block below still
+     override these for dark mode. */
+  --background: #fafafa;
+  --foreground: #050505;
+  --muted: #737373;
+  --muted-foreground: #71717a;
+  --surface: rgba(0, 0, 0, 0.03);
+  --card: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --background-rgb: 250, 250, 250;
+  --nav-link: #71717a;
+  --nav-link-hover: #000000;
+  --nav-link-active: #000000;
+
+  /* Updated brand colors - darker shades */
+  --primary: #2c3e9e; /* Darker blue/purple */
+  --secondary: #1a5f3f; /* Darker green */
+  --accent: #2d2d2d; /* Dark grey instead of pink */
+
+  /* The brand blue as *ink on the page background*, which --primary cannot be:
+     --primary is also used as a solid fill with #fff on top of it (see the
+     segmented control in preferences.css), so it has to stay put across themes
+     or that white text loses its contrast. This token is free to flip instead.
+     Same hue (231) and saturation (56%) as --primary, lightened for dark, so it
+     still reads as the same blue: 9.2:1 on white, 7.2:1 on #050505, where
+     --primary itself only manages 2.2:1. */
+  --primary-ink: #2c3e9e;
+
+  /* Global gradient variables for consistency */
+  --animated-gradient: linear-gradient(
+    135deg,
+    var(--foreground) 0%,
+    var(--primary) 50%,
+    var(--foreground) 100%
+  );
+  --radial-gradient-primary: radial-gradient(
+    circle at 50% 50%,
+    rgba(44, 62, 158, 0.1) 0%,
+    transparent 50%
+  );
+  --radial-gradient-secondary: radial-gradient(
+    circle at 80% 20%,
+    rgba(26, 95, 63, 0.1) 0%,
+    transparent 30%
+  );
+  --radial-gradient-accent: radial-gradient(
+    circle at 20% 80%,
+    rgba(45, 45, 45, 0.1) 0%,
+    transparent 30%
+  );
+}
+
+:root[data-theme="dark"] {
+  --background: #050505;
+  --foreground: #fafafa;
+  --muted: #999;
+  --muted-foreground: #a1a1aa;
+  --surface: rgba(255, 255, 255, 0.03);
+  --card: #1f1f1f;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-theme-switcher: #444;
+  --background-rgb: 5, 5, 5;
+  --nav-link: #a1a1aa;
+  --nav-link-hover: #ffffff;
+  --nav-link-active: #ffffff;
+  --primary-ink: #8795de;
+}
+
+:root[data-theme="light"] {
+  --background: #fafafa;
+  --foreground: #050505;
+  --muted: #737373;
+  --muted-foreground: #71717a;
+  --surface: rgba(0, 0, 0, 0.03);
+  --card: #ffffff;
+  --border: rgba(0, 0, 0, 0.1);
+  --background-rgb: 250, 250, 250;
+  --nav-link: #71717a;
+  --nav-link-hover: #000000;
+  --nav-link-active: #000000;
+  --primary-ink: #2c3e9e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --background: #050505;
+    --foreground: #fafafa;
+    --muted: #999;
+    --muted-foreground: #a1a1aa;
+    --surface: rgba(255, 255, 255, 0.03);
+    --card: #1f1f1f;
+    --border: rgba(255, 255, 255, 0.1);
+    --border-theme-switcher: #444;
+    --background-rgb: 5, 5, 5;
+    --nav-link: #a1a1aa;
+    --nav-link-hover: #ffffff;
+    --nav-link-active: #ffffff;
+    --primary-ink: #8795de;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) {
+    --background: #fafafa;
+    --foreground: #050505;
+    --muted: #737373;
+    --muted-foreground: #71717a;
+    --surface: rgba(0, 0, 0, 0.03);
+    --card: #ffffff;
+    --border: rgba(0, 0, 0, 0.1);
+    --background-rgb: 250, 250, 250;
+    --nav-link: #71717a;
+    --nav-link-hover: #000000;
+    --nav-link-active: #000000;
+    --primary-ink: #2c3e9e;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  background-color: var(--background);
+}
+
+html,
+body {
+  max-width: 100vw;
+  min-height: 100dvh;
+  color: var(--foreground);
+  font-family: var(--font-space-grotesk), "Space Grotesk", system-ui, sans-serif;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+@supports not (min-height: 100dvh) {
+  html,
+  body {
+    min-height: 100vh;
+  }
+}
+
+/* Custom scrollbar styles - overlay to prevent layout shifting */
+::-webkit-scrollbar {
+  width: 8px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+a,
+button {
+  transition:
+    color 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    opacity 0.2s ease-in-out;
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

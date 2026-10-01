@@ -1,0 +1,150 @@
+{
+  "date": "2026-10-01",
+  "environment": "Local production previews with gzip transport simulation; not deployed",
+  "frameworks": {
+    "vinext": {
+      "mobile": [
+        {
+          "url": "http://localhost:4511/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:09:59.554Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4511/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:10:10.715Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4511/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:10:21.603Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ],
+      "desktop": [
+        {
+          "url": "http://localhost:4511/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:10:32.757Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4511/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:10:43.829Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4511/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:10:54.799Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    "tanstack-start": {
+      "mobile": [
+        {
+          "url": "http://localhost:4512/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:12:03.180Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4512/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:12:14.063Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4512/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:12:24.836Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ],
+      "desktop": [
+        {
+          "url": "http://localhost:4512/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:12:35.597Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4512/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:12:46.307Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4512/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-01T19:12:57.282Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    }
+  }
+}

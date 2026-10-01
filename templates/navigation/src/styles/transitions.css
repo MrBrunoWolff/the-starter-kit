@@ -1,0 +1,113 @@
+.page-transition {
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+.page-transition.fade-in,
+.page-transition.fade-out {
+  transition: opacity 0.15s ease-in-out;
+}
+
+/*
+ * `will-change` belongs only on the element that is about to animate, and only
+ * while it is animating. It used to sit on `.fade-in` — which is the *idle*
+ * class — so this full-viewport wrapper permanently pinned its own compositor
+ * layer, alongside the `translateZ(0)` and `backface-visibility: hidden` that
+ * were promoting it a second and third time.
+ */
+.page-transition.fade-out {
+  /*
+   * Only opacity animates here. Naming `transform` as well would also make this
+   * element the containing block for any `position: fixed` descendant for the
+   * duration of the fade.
+   */
+  will-change: opacity;
+}
+
+.page-transition.slide-out-left,
+.page-transition.slide-in-left,
+.page-transition.slide-out-right,
+.page-transition.slide-in-right {
+  will-change: transform, opacity;
+}
+
+.page-transition.fade-in {
+  opacity: 1;
+}
+
+.page-transition.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-transition.slide-out-left,
+.page-transition.slide-in-left,
+.page-transition.slide-out-right,
+.page-transition.slide-in-right {
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease-in-out;
+  width: 100%;
+  position: relative;
+}
+
+.page-transition.slide-out-left {
+  transform: translateX(100%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.page-transition.slide-in-left {
+  transform: translateX(0);
+  opacity: 1;
+  animation: slideInFromLeft 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.page-transition.slide-out-right {
+  transform: translateX(-100%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.page-transition.slide-in-right {
+  transform: translateX(0);
+  opacity: 1;
+  animation: slideInFromRight 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0.8;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition,
+  .page-transition.fade-in,
+  .page-transition.fade-out,
+  .page-transition.slide-out-left,
+  .page-transition.slide-in-left,
+  .page-transition.slide-out-right,
+  .page-transition.slide-in-right {
+    transition: none;
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

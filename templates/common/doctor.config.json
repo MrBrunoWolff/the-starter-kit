@@ -1,0 +1,17 @@
+{
+  "scope": "full",
+  "lint": false,
+  "ignore": {
+    "files": [
+      "public/**",
+      "**/.agents/**",
+      "src/routeTree.gen.ts",
+      "worker-configuration.d.ts",
+      ".cloudflare/**",
+      ".next/**",
+      ".vinext/**",
+      ".wrangler/**",
+      "dist/**"
+    ]
+  }
+}

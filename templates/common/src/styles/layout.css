@@ -1,0 +1,165 @@
+/* Skip link for accessibility - visually hidden until focused */
+.skip-link {
+  position: absolute;
+  top: -100vh;
+  left: 0.5rem;
+  background: var(--foreground);
+  color: var(--background);
+  padding: 0.5rem 0.75rem;
+  text-decoration: none;
+  border-radius: 0 0 0.25rem 0.25rem;
+  z-index: 10000;
+  font-weight: 500;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  top: 0;
+  clip: auto;
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Main content container */
+#main-content {
+  min-height: 100dvh;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  touch-action: pan-y;
+}
+
+/* Main page layout */
+.main-page {
+  min-height: 100dvh;
+  padding: 1rem;
+  padding-top: 5rem;
+  padding-bottom: 1rem;
+  box-sizing: border-box;
+  max-width: var(--page-measure);
+  margin: 0 auto;
+}
+
+.main-page-container {
+  position: relative;
+  height: 100vh;
+}
+
+@supports (height: 100dvh) {
+  .main-page-container {
+    height: 100dvh;
+  }
+}
+
+.home-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 1rem 1rem;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.about-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 4vh, 3rem);
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.about-copy {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.about-slogan {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  max-width: 700px;
+  margin: 0 auto;
+  color: var(--muted);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Responsive tagline display (defaults before media queries so the cascade can override them) */
+.mobile-tagline {
+  display: none;
+}
+
+.desktop-tagline {
+  display: inline;
+}
+
+/*
+ * Keeps a tagline on ONE line above the mobile breakpoint, by construction
+ * rather than by hoping a clamp() was generous enough: the available width
+ * (viewport minus 1rem side padding) divided by the line's own width in em.
+ * Note there is no max-width anywhere on these lines — with `nowrap` a max-width
+ * cannot wrap the text, it can only make it overflow, which is exactly how the
+ * Labs subtitle came to sit on two lines at 1280px despite the room.
+ *
+ * 32.6 is the widest of the four tagline strings across both locales — pt-BR's
+ * "Desenvolvimento Web Moderno e Experiências Digitais" at 31.34em, against
+ * 28.84 / 29.32 / 30.91 for the others — plus ~4% headroom. Re-measure if any
+ * tagline copy changes in any locale, or the line can start overflowing.
+ */
+.slogan-single-line {
+  white-space: nowrap;
+  font-size: min(1.5rem, (100vw - 2rem) / 32.6);
+}
+
+/* Mobile bottom padding for fixed navigation */
+@media (max-width: 768px) {
+  .main-page {
+    padding-bottom: 5rem;
+  }
+
+  .main-navigation {
+    top: unset;
+    bottom: 1rem;
+    right: 50%;
+    transform: translateX(50%);
+  }
+
+  .mobile-tagline {
+    display: inline;
+    line-height: 1.4;
+  }
+
+  .desktop-tagline {
+    display: none;
+  }
+
+  /*
+   * Mobile gets two lines instead, so there is no single line to fit and the
+   * type can go back to a comfortable size — forcing one line here would mean
+   * ~11px on a 375px screen. `normal` also restores wrapping as a safety valve.
+   */
+  .slogan-single-line {
+    white-space: normal;
+    font-size: clamp(1rem, 3vw, 1.5rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .main-page {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-navigation {
+    bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+  .main-page {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+  }
+}

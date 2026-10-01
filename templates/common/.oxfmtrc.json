@@ -1,0 +1,17 @@
+{
+  "ignorePatterns": [
+    "dist/**",
+    ".vinext/**",
+    ".wrangler/**",
+    ".cloudflare/**",
+    ".agents/**",
+    "src/routeTree.gen.ts",
+    "worker-configuration.d.ts",
+    "bun.lock",
+    "package-lock.json",
+    ".next/**",
+    "next-env.d.ts",
+    ".claude/**",
+    "lighthouse/**"
+  ]
+}

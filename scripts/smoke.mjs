@@ -1,4 +1,4 @@
-import { mkdtemp } from "node:fs/promises";
+import { mkdtemp, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
@@ -27,4 +27,7 @@ for (const framework of ["vinext", "tanstack-start"]) {
         throw new Error(`${framework} navigation=${navigation}: ${script} failed`);
     }
   }
+}
+if (process.env.STARTER_SMOKE_FIXTURES_OUTPUT) {
+  await writeFile(process.env.STARTER_SMOKE_FIXTURES_OUTPUT, runDirectory);
 }

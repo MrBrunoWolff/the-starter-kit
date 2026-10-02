@@ -49,11 +49,10 @@ Generation resolves the selected framework's latest npm release and pins exact v
 
 ```sh
 bun install
-bun run check
-bun run test:smoke
-STARTER_SMOKE_FIXTURES=<printed-directory> bun run test:e2e
-npm pack --dry-run
+bun run check:ci
 ```
+
+`npm install` followed by `npm run check:ci` runs the same gate. GitHub Actions uses this single command too: code checks, Chromium installation (including system dependencies in CI), all four offline smoke fixtures, production browser checks, and the package dry run. It stops at the first failure and automatically passes fresh fixture paths to the browser suite. `bun run check` remains the faster code-only check.
 
 Smoke tests create fresh temporary fixtures for both frameworks with and without navigation. Browser checks use the fresh temporary production builds on ports 4411/4412. Set `STARTER_SMOKE_FIXTURES` to the directory printed by the smoke suite; individual fixture paths can also be selected with `STARTER_VINEXT_FIXTURE` and `STARTER_TANSTACK_FIXTURE`. They verify navigation, themes, reduced motion, modified clicks, offline fallback, and identical screenshots across frameworks at mobile/desktop widths and both themes.
 

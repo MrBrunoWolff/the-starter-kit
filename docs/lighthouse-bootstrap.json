@@ -1,0 +1,651 @@
+{
+  "sources": {
+    "lib/frameworks.mjs": "334446bbcd0a36b8a97faffd940367cf381962e2b6b3b25af170542fede03b0a",
+    "templates/common/src/styles/globals.css": "bcd12df641223df9da2c8387a189db2945b93c2957fa4c1a8883478c9dbc750a"
+  },
+  "experiment": {
+    "framework": "TanStack Start 1.168.59",
+    "url": "http://localhost:4712/",
+    "lighthouseVersion": "13.5.0",
+    "fetchTime": "2026-10-02T00:27:07.534Z",
+    "transport": "uncompressed local production preview",
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "metrics": {
+      "first-contentful-paint": 789.5109,
+      "largest-contentful-paint": 1091.0218,
+      "total-blocking-time": 0,
+      "cumulative-layout-shift": 0
+    }
+  },
+  "measurements": [
+    {
+      "fixture": "vinext-nav",
+      "preset": "mobile",
+      "code": 1,
+      "transport": "raw",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "react": "19.3.0",
+        "react-dom": "19.3.0",
+        "react-server-dom-webpack": "19.3.0",
+        "vinext": "1.0.1"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 777.69445,
+          "largest-contentful-paint": 1065.3889,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 922.231,
+          "largest-contentful-paint": 1222.231,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 917.3389,
+          "largest-contentful-paint": 2117.3389,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4611/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:43:10.901Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4611/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:43:21.721Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4611/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:43:32.451Z",
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "vinext-nav",
+      "preset": "desktop",
+      "code": 1,
+      "transport": "raw",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "react": "19.3.0",
+        "react-dom": "19.3.0",
+        "react-server-dom-webpack": "19.3.0",
+        "vinext": "1.0.1"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 40,
+        "throughputKbps": 10240,
+        "requestLatencyMs": 0,
+        "downloadThroughputKbps": 0,
+        "uploadThroughputKbps": 0,
+        "cpuSlowdownMultiplier": 1
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 254.06330000000003,
+          "largest-contentful-paint": 294.0633,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 615.752,
+          "largest-contentful-paint": 815.752,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 616.5279,
+          "largest-contentful-paint": 816.5279,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4611/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:43:43.253Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4611/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:43:53.998Z",
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4611/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:44:04.775Z",
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "tanstack-start-nav",
+      "preset": "mobile",
+      "code": 0,
+      "transport": "raw",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "@tanstack/react-router": "1.170.41",
+        "@tanstack/react-start": "1.168.60",
+        "react": "19.3.0",
+        "react-dom": "19.3.0"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 1064.7168,
+          "largest-contentful-paint": 1364.7168,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 1064.2361,
+          "largest-contentful-paint": 1364.2361,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 1064.049,
+          "largest-contentful-paint": 1364.049,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4612/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:44:15.561Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4612/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:44:26.191Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4612/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:44:36.783Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "tanstack-start-nav",
+      "preset": "desktop",
+      "code": 0,
+      "transport": "raw",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "@tanstack/react-router": "1.170.41",
+        "@tanstack/react-start": "1.168.60",
+        "react": "19.3.0",
+        "react-dom": "19.3.0"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 40,
+        "throughputKbps": 10240,
+        "requestLatencyMs": 0,
+        "downloadThroughputKbps": 0,
+        "uploadThroughputKbps": 0,
+        "cpuSlowdownMultiplier": 1
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 478.19512499999996,
+          "largest-contentful-paint": 702.23415,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 477.664625,
+          "largest-contentful-paint": 701.59755,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 477.95312499999994,
+          "largest-contentful-paint": 701.9437499999999,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4612/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:44:47.421Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4612/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:44:58.007Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4612/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:45:08.645Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "vinext-nav",
+      "preset": "mobile",
+      "code": 1,
+      "transport": "gzip-simulation",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "react": "19.3.0",
+        "react-dom": "19.3.0",
+        "react-server-dom-webpack": "19.3.0",
+        "vinext": "1.0.1"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 1234.0664,
+          "largest-contentful-paint": 1534.0664,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 1225.455,
+          "largest-contentful-paint": 1825.455,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 774.1149,
+          "largest-contentful-paint": 1074.1149,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4811/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:45:20.285Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4811/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:45:31.052Z",
+          "scores": {
+            "performance": 99,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4811/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:45:41.844Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "vinext-nav",
+      "preset": "desktop",
+      "code": 0,
+      "transport": "gzip-simulation",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "react": "19.3.0",
+        "react-dom": "19.3.0",
+        "react-server-dom-webpack": "19.3.0",
+        "vinext": "1.0.1"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 40,
+        "throughputKbps": 10240,
+        "requestLatencyMs": 0,
+        "downloadThroughputKbps": 0,
+        "uploadThroughputKbps": 0,
+        "cpuSlowdownMultiplier": 1
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 380.9787,
+          "largest-contentful-paint": 500.9787,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 378.47950000000003,
+          "largest-contentful-paint": 498.47950000000003,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 382.7485,
+          "largest-contentful-paint": 502.7485,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4811/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:45:52.632Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4811/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:46:03.367Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4811/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:46:14.198Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "tanstack-start-nav",
+      "preset": "mobile",
+      "code": 0,
+      "transport": "gzip-simulation",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "@tanstack/react-router": "1.170.41",
+        "@tanstack/react-start": "1.168.60",
+        "react": "19.3.0",
+        "react-dom": "19.3.0"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 150,
+        "throughputKbps": 1638.4,
+        "requestLatencyMs": 562.5,
+        "downloadThroughputKbps": 1474.5600000000002,
+        "uploadThroughputKbps": 675,
+        "cpuSlowdownMultiplier": 4
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 926.8595,
+          "largest-contentful-paint": 1226.8595,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 922.3525999999999,
+          "largest-contentful-paint": 1222.3526,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 926.5979,
+          "largest-contentful-paint": 1226.5979,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4812/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:46:25.016Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4812/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:46:35.671Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4812/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:46:46.281Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    },
+    {
+      "fixture": "tanstack-start-nav",
+      "preset": "desktop",
+      "code": 0,
+      "transport": "gzip-simulation",
+      "dependencies": {
+        "@fontsource/space-grotesk": "5.3.0",
+        "@tanstack/react-router": "1.170.41",
+        "@tanstack/react-start": "1.168.60",
+        "react": "19.3.0",
+        "react-dom": "19.3.0"
+      },
+      "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.0.0 Safari/537.36",
+      "throttling": {
+        "rttMs": 40,
+        "throughputKbps": 10240,
+        "requestLatencyMs": 0,
+        "downloadThroughputKbps": 0,
+        "uploadThroughputKbps": 0,
+        "cpuSlowdownMultiplier": 1
+      },
+      "throttlingMethod": "simulate",
+      "metrics": [
+        {
+          "first-contentful-paint": 308.92150000000004,
+          "largest-contentful-paint": 435.5058,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 325.69612500000005,
+          "largest-contentful-paint": 431.23535000000004,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        },
+        {
+          "first-contentful-paint": 323.65250000000003,
+          "largest-contentful-paint": 429.183,
+          "total-blocking-time": 0,
+          "cumulative-layout-shift": 0
+        }
+      ],
+      "runs": [
+        {
+          "url": "http://localhost:4812/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:46:56.952Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4812/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:47:07.625Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        },
+        {
+          "url": "http://localhost:4812/",
+          "lighthouseVersion": "13.5.0",
+          "fetchTime": "2026-10-02T00:47:18.252Z",
+          "scores": {
+            "performance": 100,
+            "accessibility": 100,
+            "best-practices": 100,
+            "seo": 100
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -65,6 +65,60 @@ for (const [framework, port] of [
       expect(errors).toEqual([]);
     });
   }
+  test(`${framework}: cached routes swap while hidden and enter smoothly`, async ({ page }) => {
+    await page.goto(`http://localhost:${port}/labs`);
+    await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
+    await page.getByRole("link", { name: "Home", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Starter Kit");
+    await expect(page.locator(".page-transition")).toHaveCSS("opacity", "1");
+    await expect(page.locator(".page-transition")).not.toHaveClass(/entering/);
+    const samples = await page.evaluate(async () => {
+      const wrapper = document.querySelector(".page-transition");
+      const frames = [];
+      const start = performance.now();
+      document.querySelector('nav a[href="/labs"]').click();
+      await new Promise((resolve) => {
+        const sample = () => {
+          frames.push({
+            heading: wrapper.querySelector("h1").textContent,
+            phase: wrapper.className,
+            opacity: Number(getComputedStyle(wrapper).opacity),
+            elapsed: performance.now() - start,
+            sameWrapper: wrapper === document.querySelector(".page-transition"),
+          });
+          if (performance.now() - start < 1200) requestAnimationFrame(sample);
+          else resolve();
+        };
+        requestAnimationFrame(sample);
+      });
+      return frames;
+    });
+    expect(samples.every((frame) => frame.sameWrapper)).toBe(true);
+    const exit = samples.filter((frame) => frame.phase.includes("fade-out"));
+    expect(exit.length).toBeGreaterThan(0);
+    expect(exit.every((frame) => frame.heading === "The Starter Kit")).toBe(true);
+    const entry = samples.filter((frame) => frame.phase.includes("entering"));
+    expect(entry.length).toBeGreaterThan(0);
+    expect(entry.every((frame) => frame.heading === "Labs")).toBe(true);
+    expect(entry[0].opacity).toBeLessThan(0.2);
+    expect(entry.at(-1).elapsed - entry[0].elapsed).toBeGreaterThan(200);
+    expect(samples.at(-1).opacity).toBe(1);
+    expect(samples.at(-1).phase).not.toContain("entering");
+  });
+  test(`${framework}: initial content is visible before hydration`, async ({ browser }) => {
+    const context = await browser.newContext({ javaScriptEnabled: false });
+    try {
+      const page = await context.newPage();
+      await page.goto(`http://localhost:${port}`);
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Starter Kit");
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      await expect(page.locator(".page-transition")).toHaveCSS("opacity", "1");
+      await page.getByRole("link", { name: "Labs", exact: true }).click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Labs");
+    } finally {
+      await context.close();
+    }
+  });
   test(`${framework}: reduced motion and modified click`, async ({ page, context }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(`http://localhost:${port}/labs`);

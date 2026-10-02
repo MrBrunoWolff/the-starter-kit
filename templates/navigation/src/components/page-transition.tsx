@@ -7,6 +7,7 @@ import {
   use,
   useCallback,
   useEffect,
+  useLayoutEffect,
   useReducer,
   useRef,
   useState,
@@ -14,7 +15,11 @@ import {
 } from "react";
 
 type Direction = "left" | "right" | "fade";
-type Phase = "idle" | "fadeOut";
+type Phase = "idle" | "fadeOut" | "fadeIn";
+
+const EXIT_DURATION = 200;
+const ENTER_DURATION = 300;
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 /*
  * Four contexts rather than one object, so a consumer that only reads
@@ -33,7 +38,10 @@ interface TransitionState {
   transitionDirection: Direction;
 }
 
-type TransitionAction = { type: "start"; direction: Direction } | { type: "reset" };
+type TransitionAction =
+  | { type: "start"; direction: Direction }
+  | { type: "enter" }
+  | { type: "reset" };
 
 /** Swipe order on touch devices. Must match the nav's item order. */
 const ROUTES: string[] = NAV_ITEMS.map((item) => item.href);
@@ -46,6 +54,8 @@ function transitionReducer(state: TransitionState, action: TransitionAction): Tr
         transitionPhase: "fadeOut",
         transitionDirection: action.direction,
       };
+    case "enter":
+      return { ...state, transitionPhase: "fadeIn" };
     case "reset":
       return { isTransitioning: false, transitionPhase: "idle", transitionDirection: "fade" };
     default:
@@ -67,10 +77,7 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
   const resetTimeoutRef = useRef<number | null>(null);
   const pathnameRef = useRef(pathname);
   const isTransitioningRef = useRef(isTransitioning);
-  // When the exit animation started and how long it runs. The route can resolve
-  // before the animation finishes, so the reset has to know what is still owed.
-  const exitStartedAtRef = useRef(0);
-  const exitDurationRef = useRef(0);
+  const navigationTimeoutRef = useRef<number | null>(null);
 
   /*
    * Stable so StartTransitionContext's value keeps its identity across renders.
@@ -91,34 +98,25 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
       pendingUrlRef.current = url;
       dispatchTransition({ type: "start", direction });
 
-      const duration = window.matchMedia("(prefers-reduced-motion: reduce)").matches
-        ? 0
-        : direction === "fade"
-          ? 150
-          : 250;
-      exitDurationRef.current = duration;
-      exitStartedAtRef.current = performance.now();
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const navigate = () => {
+        navigationTimeoutRef.current = null;
+        startReactTransition(() => {
+          router.push(url);
+        });
+      };
 
-      /*
-       * The navigation starts in the same tick as the fade, not after it. Putting
-       * it behind `setTimeout(..., duration)` serialises two independent things —
-       * the exit animation runs on the compositor while the RSC payload is
-       * fetched — and adds a full `duration` of dead time to every navigation.
-       *
-       * The visual sequence is unchanged: React keeps the current UI on screen
-       * until the new route is ready, and the reset below refuses to fire before
-       * the exit animation has played out, so content still swaps while the
-       * wrapper is fully faded rather than mid-fade.
-       */
-      startReactTransition(() => {
-        router.push(url);
-      });
+      // Keep the outgoing route mounted until it is completely hidden. Even a
+      // cached destination must not replace it halfway through the exit.
+      if (reducedMotion) navigate();
+      else navigationTimeoutRef.current = window.setTimeout(navigate, EXIT_DURATION);
 
       resetTimeoutRef.current = window.setTimeout(() => {
+        isTransitioningRef.current = false;
         dispatchTransition({ type: "reset" });
         pendingUrlRef.current = null;
         resetTimeoutRef.current = null;
-      }, duration + 1200);
+      }, 5000);
     },
     [router],
   );
@@ -128,37 +126,49 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
     isTransitioningRef.current = isTransitioning;
   }, [pathname, isTransitioning]);
 
-  useEffect(() => {
-    if (!isTransitioning || pendingUrlRef.current !== pathname) return;
-
-    // Keep the deadline until the visual reset actually commits. Back navigation
-    // can cancel the frame/timer below after the destination route resolves.
-    const finish = () => {
+  useIsomorphicLayoutEffect(() => {
+    // Browser Back/Forward can interrupt either phase. Cancel the pending
+    // navigation as well, so its timer cannot send the user forward again.
+    if (pathname !== pathnameRef.current && pathname !== pendingUrlRef.current) {
+      if (navigationTimeoutRef.current) {
+        window.clearTimeout(navigationTimeoutRef.current);
+        navigationTimeoutRef.current = null;
+      }
       if (resetTimeoutRef.current) {
         window.clearTimeout(resetTimeoutRef.current);
         resetTimeoutRef.current = null;
       }
+      pendingUrlRef.current = null;
       isTransitioningRef.current = false;
       dispatchTransition({ type: "reset" });
-      pendingUrlRef.current = null;
-    };
-
-    // Resetting now would swap content mid-fade and then fade it back in — a
-    // visible flicker. A prefetched route routinely resolves inside the window.
-    const remaining = exitDurationRef.current - (performance.now() - exitStartedAtRef.current);
-
-    if (remaining > 0) {
-      const timeoutId = window.setTimeout(finish, remaining);
-      return () => window.clearTimeout(timeoutId);
+      return;
     }
+    if (transitionPhase !== "fadeOut" || pendingUrlRef.current !== pathname) return;
+    if (resetTimeoutRef.current) {
+      window.clearTimeout(resetTimeoutRef.current);
+      resetTimeoutRef.current = null;
+    }
+    // Apply the entry keyframe before the destination's first paint. Keep the
+    // swipe direction through entry instead of resetting it to a plain fade.
+    dispatchTransition({
+      type: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "reset" : "enter",
+    });
+    pendingUrlRef.current = null;
+  }, [pathname, transitionPhase]);
 
-    const rafId = window.requestAnimationFrame(finish);
-    return () => window.cancelAnimationFrame(rafId);
-  }, [pathname, isTransitioning]);
+  useEffect(() => {
+    if (transitionPhase !== "fadeIn") return;
+    const timeoutId = window.setTimeout(() => {
+      isTransitioningRef.current = false;
+      dispatchTransition({ type: "reset" });
+    }, ENTER_DURATION);
+    return () => window.clearTimeout(timeoutId);
+  }, [transitionPhase]);
 
   useEffect(() => {
     return () => {
       if (resetTimeoutRef.current) window.clearTimeout(resetTimeoutRef.current);
+      if (navigationTimeoutRef.current) window.clearTimeout(navigationTimeoutRef.current);
     };
   }, []);
 
@@ -295,6 +305,7 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
   };
 
   const transitionClass = () => {
+    if (transitionPhase === "idle") return "fade-in";
     if (transitionDirection === "fade") {
       return transitionPhase === "fadeOut" ? "fade-out" : "fade-in";
     }
@@ -304,23 +315,14 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
     return transitionDirection === "left" ? "slide-in-left" : "slide-in-right";
   };
 
-  if (transitionPhase === "fadeOut") {
-    return (
-      <div className={`page-transition ${transitionClass()}`} {...touchHandlers}>
-        {children}
-      </div>
-    );
-  }
-
   // No transition while the finger is down, or the rubber-band lags the drag.
   const swipeStyle =
     swipeOffset === 0 ? {} : { transform: `translateX(${swipeOffset * 100}%)`, transition: "none" };
 
   return (
     <div
-      className={`page-transition ${transitionClass()}`}
+      className={`page-transition ${transitionClass()}${transitionPhase === "fadeIn" ? " entering" : ""}`}
       style={swipeStyle}
-      suppressHydrationWarning
       {...touchHandlers}
     >
       {children}

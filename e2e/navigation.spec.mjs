@@ -15,7 +15,7 @@ for (const [framework, port] of [
       page.on("pageerror", (error) => errors.push(error.message));
       await page.goto(`http://localhost:${port}`);
       await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Starter Kit");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 1");
       const box = await page.locator(".main-navigation").boundingBox();
       expect(mobile ? box.y > 740 : box.y < 30).toBe(true);
       const colors = await page.evaluate(() => [
@@ -23,14 +23,14 @@ for (const [framework, port] of [
         getComputedStyle(document.querySelector(".main-navigation")).backgroundColor,
       ]);
       expect(colors[0]).toBe(colors[1]);
-      await page.getByRole("link", { name: "Labs", exact: true }).click();
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Labs");
+      await page.getByRole("link", { name: "Page 2", exact: true }).click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 2");
       await expect(page.locator(".page-transition")).toHaveClass(/fade-in/);
       await expect(page.locator(".page-transition")).toHaveCSS("opacity", "1");
-      await page.getByRole("link", { name: "About", exact: true }).click();
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText("About");
+      await page.getByRole("link", { name: "Page 3", exact: true }).click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 3");
       await page.goBack();
-      await expect(page.getByRole("link", { name: "Labs", exact: true })).toHaveAttribute(
+      await expect(page.getByRole("link", { name: "Page 2", exact: true })).toHaveAttribute(
         "aria-current",
         "page",
       );
@@ -55,7 +55,7 @@ for (const [framework, port] of [
             );
           }
         });
-        await expect(page.getByRole("heading", { level: 1 })).toHaveText("About");
+        await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 3");
       }
       await page.getByRole("button", { name: /Theme:/ }).click();
       await page.getByRole("button", { name: /Theme:/ }).click();
@@ -66,17 +66,17 @@ for (const [framework, port] of [
     });
   }
   test(`${framework}: cached routes swap while hidden and enter smoothly`, async ({ page }) => {
-    await page.goto(`http://localhost:${port}/labs`);
+    await page.goto(`http://localhost:${port}/page-2`);
     await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
-    await page.getByRole("link", { name: "Home", exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Starter Kit");
+    await page.getByRole("link", { name: "Page 1", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 1");
     await expect(page.locator(".page-transition")).toHaveCSS("opacity", "1");
     await expect(page.locator(".page-transition")).not.toHaveClass(/entering/);
     const samples = await page.evaluate(async () => {
       const wrapper = document.querySelector(".page-transition");
       const frames = [];
       const start = performance.now();
-      document.querySelector('nav a[href="/labs"]').click();
+      document.querySelector('nav a[href="/page-2"]').click();
       await new Promise((resolve) => {
         const sample = () => {
           frames.push({
@@ -96,10 +96,10 @@ for (const [framework, port] of [
     expect(samples.every((frame) => frame.sameWrapper)).toBe(true);
     const exit = samples.filter((frame) => frame.phase.includes("fade-out"));
     expect(exit.length).toBeGreaterThan(0);
-    expect(exit.every((frame) => frame.heading === "The Starter Kit")).toBe(true);
+    expect(exit.every((frame) => frame.heading === "Page 1")).toBe(true);
     const entry = samples.filter((frame) => frame.phase.includes("entering"));
     expect(entry.length).toBeGreaterThan(0);
-    expect(entry.every((frame) => frame.heading === "Labs")).toBe(true);
+    expect(entry.every((frame) => frame.heading === "Page 2")).toBe(true);
     expect(entry[0].opacity).toBeLessThan(0.2);
     expect(entry.at(-1).elapsed - entry[0].elapsed).toBeGreaterThan(200);
     expect(samples.at(-1).opacity).toBe(1);
@@ -110,28 +110,28 @@ for (const [framework, port] of [
     try {
       const page = await context.newPage();
       await page.goto(`http://localhost:${port}`);
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Starter Kit");
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 1");
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
       await expect(page.locator(".page-transition")).toHaveCSS("opacity", "1");
-      await page.getByRole("link", { name: "Labs", exact: true }).click();
-      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Labs");
+      await page.getByRole("link", { name: "Page 2", exact: true }).click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 2");
     } finally {
       await context.close();
     }
   });
   test(`${framework}: reduced motion and modified click`, async ({ page, context }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto(`http://localhost:${port}/labs`);
+    await page.goto(`http://localhost:${port}/page-2`);
     await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
     const popup = context.waitForEvent("page");
-    await page.getByRole("link", { name: "About", exact: true }).click({ modifiers: ["Control"] });
+    await page.getByRole("link", { name: "Page 3", exact: true }).click({ modifiers: ["Control"] });
     const opened = await popup;
-    await opened.waitForURL("**/about");
-    expect(opened.url()).toContain("/about");
-    expect(page.url()).toContain("/labs");
+    await opened.waitForURL("**/page-3");
+    expect(opened.url()).toContain("/page-3");
+    expect(page.url()).toContain("/page-2");
     await opened.close();
-    await page.getByRole("link", { name: "Home", exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("The Starter Kit");
+    await page.getByRole("link", { name: "Page 1", exact: true }).click();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 1");
     await expect(page.locator(".page-transition")).toHaveCSS("animation-name", "none");
   });
   test(`${framework}: installable manifest and offline fallback`, async ({ page, context }) => {

@@ -1,0 +1,182 @@
+[
+  {
+    "framework": "vinext",
+    "preset": "mobile",
+    "run": 1,
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4411/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "vinext",
+    "preset": "mobile",
+    "run": 2,
+    "scores": {
+      "performance": 81,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4411/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "vinext",
+    "preset": "mobile",
+    "run": 3,
+    "scores": {
+      "performance": 91,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4411/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "vinext",
+    "preset": "desktop",
+    "run": 1,
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4411/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "vinext",
+    "preset": "desktop",
+    "run": 2,
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4411/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "vinext",
+    "preset": "desktop",
+    "run": 3,
+    "scores": {
+      "performance": 99,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4411/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "tanstack-start",
+    "preset": "mobile",
+    "run": 1,
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4412/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "tanstack-start",
+    "preset": "mobile",
+    "run": 2,
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4412/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "tanstack-start",
+    "preset": "mobile",
+    "run": 3,
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4412/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "tanstack-start",
+    "preset": "desktop",
+    "run": 1,
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4412/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "tanstack-start",
+    "preset": "desktop",
+    "run": 2,
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4412/",
+    "compression": "uncompressed local production preview"
+  },
+  {
+    "framework": "tanstack-start",
+    "preset": "desktop",
+    "run": 3,
+    "scores": {
+      "performance": 100,
+      "accessibility": 100,
+      "best-practices": 100,
+      "seo": 100
+    },
+    "lighthouseVersion": "13.5.0",
+    "browser": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/153.0.8010.12 Safari/537.36",
+    "url": "http://127.0.0.1:4412/",
+    "compression": "uncompressed local production preview"
+  }
+]

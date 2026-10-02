@@ -30,7 +30,7 @@ for (const framework of ["vinext", "tanstack-start"]) {
       );
       assert.equal((await readdir(join(directory, ".agents/skills"))).length, 8);
       const pages = await readFile(join(directory, "src/components/sample-pages.tsx"), "utf8");
-      assert.equal(pages.includes("LabsPage"), navigation);
+      assert.equal(pages.includes("Page2"), navigation);
       const files = await readdir(join(directory, "src/components"));
       assert.equal(files.includes("navigation.tsx"), navigation);
       assert.equal(files.includes("base-shell.tsx"), !navigation);

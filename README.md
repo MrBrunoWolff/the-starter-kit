@@ -20,7 +20,7 @@ the-starter-kit my-app
 
 Omitting a version resolves the npm `latest` tag. Repeat the global install command to update the installed CLI.
 
-The interactive CLI asks for the framework, sample navigation, and package manager. Bun is the default when installed; npm is always selectable. Sample navigation follows the-system-one: desktop navigation, background-matched mobile bottom bar, measured gradient underline, animated page changes, swipe gestures, and reduced-motion support.
+The interactive CLI asks for the framework, sample navigation, and package manager. Bun is the default when installed; npm is always selectable. Sample navigation uses Page 1 (`/`), Page 2 (`/page-2`), and Page 3 (`/page-3`) and follows the-system-one: desktop navigation, background-matched mobile bottom bar, measured gradient underline, animated page changes, swipe gestures, and reduced-motion support.
 
 ```sh
 npx the-starter-kit my-app --framework tanstack-start --navigation --package-manager npm

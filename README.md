@@ -1,6 +1,7 @@
 # the-starter-kit
 
-[npm package](https://www.npmjs.com/package/the-starter-kit)
+[![npm](https://img.shields.io/npm/v/the-starter-kit?style=flat-square)](https://www.npmjs.com/package/the-starter-kit)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
 A Cloudflare Workers app generator for the Wolff fleet. Choose vinext or TanStack Start; both receive the same components, fonts, tokens, theme controls, and responsive layout.
 

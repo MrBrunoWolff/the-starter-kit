@@ -45,6 +45,8 @@ No Cloudflare account, secrets, resource bindings, deployment, or npm publicatio
 
 Generation resolves the selected framework's latest npm release and pins exact versions. The framework and its companion packages have scoped Bun age exceptions; other dependencies resolve the newest releases satisfying the fleet's three-day publication-age policy. `--release-age 0` opts into newly published releases; generated Bun configuration follows that selection. vinext currently requires the Cloudflare Vite plugin's v2 beta track; TanStack uses the stable track. `--offline` uses the bundled, build-tested snapshot rather than the registry. `--no-install` writes the project without installing dependencies. Existing non-empty folders are refused. The current Cloudflare tooling also receives the patched Undici 7.29.1 override, with a scoped package-age exception; remove it when upstream dependencies no longer need it.
 
+vinext apps temporarily exempt only [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm): its build-time glob dependency includes braces, which has no published patch. This accepts the nested-pattern denial-of-service risk in tooling; avoid processing untrusted glob patterns. Bun uses its advisory-ID ignore flag; npm uses `scripts/audit.mjs` to filter that exact advisory. All other high/critical advisories and audit errors still fail. Remove the exception when upstream publishes a fix.
+
 ## Maintainer checks
 
 ```sh

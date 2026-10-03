@@ -127,4 +127,68 @@ for (const [framework, port] of [
       expect(page.url()).toContain(START_URL);
     });
   }
+
+  test(`${PREFIX} a long drag keeps following the finger`, async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(START_URL);
+    await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
+    await expect(page.locator(".page-transition")).not.toHaveClass(/entering/);
+    const x = await page.evaluate(async () => {
+      const wrapper = document.querySelector(".page-transition");
+      const touch = (type, x) => {
+        const point = new Touch({ identifier: 1, target: wrapper, clientX: x, clientY: 300 });
+        wrapper.dispatchEvent(
+          new TouchEvent(type, {
+            bubbles: true,
+            touches: [point],
+            targetTouches: [point],
+            changedTouches: [point],
+          }),
+        );
+      };
+      touch("touchstart", 360);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      touch("touchmove", 40);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      return new DOMMatrixReadOnly(getComputedStyle(wrapper).transform).m41;
+    });
+    // 320px of finger travel moves the page 320px, not to a fixed stop.
+    expect(x).toBeLessThan(-310);
+  });
+
+  test(`${PREFIX} swipe that starts on a link inside a card still changes page`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(START_URL);
+    await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
+    await expect(page.locator(".page-transition")).not.toHaveClass(/entering/);
+    await page.evaluate(async () => {
+      // Apps built on the kit commonly make whole cards links; the sample cards are not.
+      const link = document.createElement("a");
+      link.href = "/page-1";
+      link.textContent = "Card link";
+      document.querySelector(".sample-card").append(link);
+      const touch = (type, x) => {
+        const point = new Touch({ identifier: 1, target: link, clientX: x, clientY: 300 });
+        link.dispatchEvent(
+          new TouchEvent(type, {
+            bubbles: true,
+            touches: type === "touchend" ? [] : [point],
+            targetTouches: type === "touchend" ? [] : [point],
+            changedTouches: [point],
+          }),
+        );
+      };
+      touch("touchstart", 300);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      touch("touchmove", 150);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      touch("touchend", 150);
+      // A click delivered after the swipe must not follow the link as well.
+      link.click();
+    });
+    await expect(page).toHaveURL(/\/page-3$/);
+  });
 }

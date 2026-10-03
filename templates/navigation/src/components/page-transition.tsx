@@ -202,6 +202,7 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
   const touchStartYRef = useRef<number | null>(null);
   const touchEndYRef = useRef<number | null>(null);
   const swipeAxisRef = useRef<"horizontal" | "vertical" | null>(null);
+  const swipedAtRef = useRef(Number.NEGATIVE_INFINITY);
   const [swipeOffset, setSwipeOffset] = useState(0);
 
   const resetTouchState = () => {
@@ -215,9 +216,11 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     if (isTransitioning || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // Links and buttons stay swipeable: a card is often one big link, and a finger
+    // that travels far enough to swipe never produces a tap on them.
     if (
       (e.target as HTMLElement).closest(
-        "input, textarea, select, button, a, [contenteditable], [data-no-swipe]",
+        "input, textarea, select, [contenteditable], [data-no-swipe]",
       )
     )
       return;
@@ -257,8 +260,9 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
       return;
     }
 
-    const maxOffset = Math.min(absX / window.innerWidth, 0.3);
-    setSwipeOffset(distanceX > 0 ? -maxOffset : maxOffset);
+    // Track the finger 1:1, as far as the screen edge.
+    const offset = Math.min(absX / window.innerWidth, 1);
+    setSwipeOffset(distanceX > 0 ? -offset : offset);
   };
 
   const handleTouchEnd = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -297,6 +301,7 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
     if (!isLeftSwipe && !isRightSwipe) return;
     const currentIndex = ROUTES.indexOf(pathname);
     if (currentIndex === -1) return;
+    swipedAtRef.current = performance.now();
 
     const nextIndex = isLeftSwipe
       ? (currentIndex + 1) % ROUTES.length
@@ -305,11 +310,20 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
     if (next) startTransition(next, isLeftSwipe ? "right" : "left");
   };
 
+  // Backstop for a browser that still delivers a click after a swipe released
+  // over a link: the swipe has already chosen the destination.
+  const handleClickCapture = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (performance.now() - swipedAtRef.current > 500) return;
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
   const touchHandlers = {
     onTouchStart: handleTouchStart,
     onTouchMove: handleTouchMove,
     onTouchEnd: handleTouchEnd,
     onTouchCancel: resetTouchState,
+    onClickCapture: handleClickCapture,
   };
 
   const transitionClass = () => {

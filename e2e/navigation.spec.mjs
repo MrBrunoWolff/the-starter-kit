@@ -1,5 +1,45 @@
 import { test, expect } from "@playwright/test";
 
+// Font readiness resolves before React commits the underline's remeasurement.
+// Wait for the actual layout, then require two identical captures. Keep the
+// cross-framework comparison exact: no masks, pixel tolerances, or retries of
+// the comparison itself.
+async function stableScreenshot(page) {
+  await page.evaluate(() => document.fonts.ready);
+  await expect
+    .poll(
+      async () =>
+        page.evaluate(() => {
+          const active = document.querySelector('nav a[aria-current="page"]');
+          const underline = document.querySelector(".nav-underline");
+          const linkBox = active.getBoundingClientRect();
+          const barBox = underline.getBoundingClientRect();
+          const style = getComputedStyle(active);
+          const left = parseFloat(style.paddingLeft);
+          const right = parseFloat(style.paddingRight);
+          return (
+            Math.abs(barBox.left - linkBox.left - left) < 0.02 &&
+            Math.abs(barBox.width - linkBox.width + left + right) < 0.02
+          );
+        }),
+      { message: "Navigation must use the loaded font metrics" },
+    )
+    .toBe(true);
+  let previous;
+  await expect
+    .poll(
+      async () => {
+        const current = await page.screenshot({ animations: "disabled" });
+        const stable = previous?.equals(current) ?? false;
+        previous = current;
+        return stable;
+      },
+      { message: "Page pixels must settle before framework comparison", intervals: [100] },
+    )
+    .toBe(true);
+  return previous;
+}
+
 for (const [framework, port] of [
   ["vinext", 4411],
   ["tanstack-start", 4412],
@@ -166,10 +206,22 @@ test("frameworks render identical pixels in both themes at desktop and mobile si
       const shots = [];
       for (let i = 0; i < pages.length; i++) {
         const page = pages[i];
-        await page.goto(`http://localhost:${4411 + i}`);
+        // The second framework hydrates against fallback metrics first, so the
+        // comparison also exercises fonts completing after nav[data-ready].
+        let releaseFont;
+        if (i === 1) {
+          const blocked = new Promise((resolve) => {
+            releaseFont = resolve;
+          });
+          await page.route("**/*500-normal*.woff2", async (route) => {
+            await blocked;
+            await route.continue();
+          });
+        }
+        await page.goto(`http://localhost:${4411 + i}`, { waitUntil: "domcontentloaded" });
         await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
-        await page.evaluate(() => document.fonts.ready);
-        shots.push(await page.screenshot({ animations: "disabled" }));
+        releaseFont?.();
+        shots.push(await stableScreenshot(page));
         await testInfo.attach(
           `${i === 0 ? "vinext" : "tanstack"}-${mobile ? "mobile" : "desktop"}-${dark ? "dark" : "light"}`,
           { body: shots[i], contentType: "image/png" },

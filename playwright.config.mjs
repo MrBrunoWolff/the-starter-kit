@@ -9,10 +9,15 @@ if (!fixtures && (!process.env.STARTER_VINEXT_FIXTURE || !process.env.STARTER_TA
 }
 export default defineConfig({
   testDir: "./e2e",
-  outputDir: join(tmpdir(), "starter-kit-browser-results"),
+  outputDir: join(process.env.RUNNER_TEMP ?? tmpdir(), "starter-kit-browser-results"),
   fullyParallel: false,
   workers: 1,
-  use: { browserName: "chromium", headless: true },
+  use: {
+    browserName: "chromium",
+    headless: true,
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
+  },
   webServer: [
     {
       command: "node node_modules/vite/bin/vite.js preview --port 4411",

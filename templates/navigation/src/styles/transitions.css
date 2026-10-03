@@ -5,27 +5,34 @@
 
 .page-transition.fade-in {
   opacity: 1;
+  /* Settle a short or cancelled drag smoothly back to its resting position. */
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.page-transition.fade-out,
-.page-transition.slide-out-left,
-.page-transition.slide-out-right {
-  transition:
-    opacity 0.2s ease-in-out,
-    transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+.page-transition.fade-out {
+  transition: opacity 0.2s ease-in-out;
   opacity: 0;
   pointer-events: none;
   will-change: opacity;
 }
 
-.page-transition.slide-out-left {
-  transform: translateX(32px);
+/* Continue in the drag's direction, beyond any offset reached by the finger. */
+.page-transition.slide-out-left,
+.page-transition.slide-out-right {
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease-in-out;
+  opacity: 0.8;
+  pointer-events: none;
   will-change: transform, opacity;
 }
 
+.page-transition.slide-out-left {
+  transform: translateX(100%);
+}
+
 .page-transition.slide-out-right {
-  transform: translateX(-32px);
-  will-change: transform, opacity;
+  transform: translateX(-100%);
 }
 
 .page-transition.entering {
@@ -34,19 +41,25 @@
   will-change: opacity;
 }
 
-.page-transition.slide-in-left.entering {
-  --entry-offset: -32px;
+.page-transition.slide-in-left.entering,
+.page-transition.slide-in-right.entering {
+  --entry-opacity: 0.8;
+  animation-duration: 0.25s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   will-change: transform, opacity;
 }
 
+.page-transition.slide-in-left.entering {
+  --entry-offset: -100%;
+}
+
 .page-transition.slide-in-right.entering {
-  --entry-offset: 32px;
-  will-change: transform, opacity;
+  --entry-offset: 100%;
 }
 
 @keyframes pageEnter {
   from {
-    opacity: 0;
+    opacity: var(--entry-opacity, 0);
     transform: translateX(var(--entry-offset, 0px));
   }
   to {

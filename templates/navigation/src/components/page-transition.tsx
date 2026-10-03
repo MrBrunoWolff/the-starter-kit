@@ -19,6 +19,7 @@ type Phase = "idle" | "fadeOut" | "fadeIn";
 
 const EXIT_DURATION = 200;
 const ENTER_DURATION = 300;
+const SLIDE_DURATION = 250;
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 /*
@@ -109,7 +110,11 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
       // Keep the outgoing route mounted until it is completely hidden. Even a
       // cached destination must not replace it halfway through the exit.
       if (reducedMotion) navigate();
-      else navigationTimeoutRef.current = window.setTimeout(navigate, EXIT_DURATION);
+      else
+        navigationTimeoutRef.current = window.setTimeout(
+          navigate,
+          direction === "fade" ? EXIT_DURATION : SLIDE_DURATION,
+        );
 
       resetTimeoutRef.current = window.setTimeout(() => {
         isTransitioningRef.current = false;
@@ -158,12 +163,15 @@ export function TransitionProvider({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     if (transitionPhase !== "fadeIn") return;
-    const timeoutId = window.setTimeout(() => {
-      isTransitioningRef.current = false;
-      dispatchTransition({ type: "reset" });
-    }, ENTER_DURATION);
+    const timeoutId = window.setTimeout(
+      () => {
+        isTransitioningRef.current = false;
+        dispatchTransition({ type: "reset" });
+      },
+      transitionDirection === "fade" ? ENTER_DURATION : SLIDE_DURATION,
+    );
     return () => window.clearTimeout(timeoutId);
-  }, [transitionPhase]);
+  }, [transitionPhase, transitionDirection]);
 
   useEffect(() => {
     return () => {

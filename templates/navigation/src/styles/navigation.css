@@ -189,6 +189,7 @@ nav[data-ready] .nav-underline {
 
 .main-navigation {
   position: fixed;
+  width: max-content;
   top: 1rem;
   right: calc(1rem + 60px);
   z-index: 100;

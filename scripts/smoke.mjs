@@ -6,6 +6,11 @@ import { scaffold } from "../lib/scaffold.mjs";
 
 const runDirectory = await mkdtemp(resolve(tmpdir(), "starter-smoke-"));
 console.log(`Smoke fixtures: ${runDirectory}`);
+// Register ownership before installing anything, so the CI gate can clean up
+// even when a dependency install or a build fails halfway through.
+if (process.env.STARTER_SMOKE_FIXTURES_OUTPUT) {
+  await writeFile(process.env.STARTER_SMOKE_FIXTURES_OUTPUT, runDirectory);
+}
 for (const framework of ["vinext", "tanstack-start"]) {
   for (const navigation of [true, false]) {
     const directory = resolve(runDirectory, `${framework}-${navigation ? "nav" : "bare"}`);
@@ -27,7 +32,4 @@ for (const framework of ["vinext", "tanstack-start"]) {
         throw new Error(`${framework} navigation=${navigation}: ${script} failed`);
     }
   }
-}
-if (process.env.STARTER_SMOKE_FIXTURES_OUTPUT) {
-  await writeFile(process.env.STARTER_SMOKE_FIXTURES_OUTPUT, runDirectory);
 }

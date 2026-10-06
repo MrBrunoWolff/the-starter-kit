@@ -342,6 +342,8 @@ export function MainContentTransition({ children }: { children: React.ReactNode 
     swipeOffset === 0 ? {} : { transform: `translateX(${swipeOffset * 100}%)`, transition: "none" };
 
   return (
+    // This delegates pointer-click suppression after swiping; the wrapper is not a control.
+    // react-doctor-disable-next-line click-events-have-key-events
     <div
       className={`page-transition ${transitionClass()}${transitionPhase === "fadeIn" ? " entering" : ""}`}
       style={swipeStyle}

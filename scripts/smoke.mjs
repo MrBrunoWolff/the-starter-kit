@@ -23,7 +23,9 @@ for (const framework of ["vinext", "tanstack-start"]) {
       install: true,
       offline: process.argv.includes("--offline"),
     });
-    for (const script of ["check", "deploy:check", "doctor", "audit"]) {
+    for (const script of process.argv.includes("--security-only")
+      ? ["audit"]
+      : ["check", "deploy:check", "doctor:ci"]) {
       const result = spawnSync(packageManager, ["run", script], {
         cwd: directory,
         stdio: "inherit",

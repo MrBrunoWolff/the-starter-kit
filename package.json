@@ -33,14 +33,19 @@
   "type": "module",
   "scripts": {
     "test": "node --test tests/*.test.mjs",
-    "lint": "oxlint bin lib tests scripts e2e",
+    "lint": "oxlint bin lib tests scripts e2e --deny-warnings",
     "format": "oxfmt --write .",
     "format:check": "oxfmt --check .",
     "check": "npm run lint && npm run format:check && npm test",
-    "check:ci": "node scripts/check-ci.mjs",
+    "check:ci": "node scripts/quality.mjs",
     "test:smoke": "node scripts/smoke.mjs",
     "test:e2e": "playwright test",
-    "prepublishOnly": "npm run check"
+    "prepublishOnly": "npm run check",
+    "check:fixtures": "node scripts/check-ci.mjs code",
+    "audit:fixtures": "node scripts/check-ci.mjs security",
+    "audit": "bun audit --audit-level=high",
+    "check:code": "node scripts/quality.mjs code",
+    "check:security": "node scripts/quality.mjs security"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
@@ -50,5 +55,6 @@
   },
   "engines": {
     "node": ">=22.19"
-  }
+  },
+  "packageManager": "bun@1.4.2"
 }

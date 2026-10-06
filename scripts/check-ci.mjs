@@ -40,34 +40,44 @@ async function cleanupResults(results) {
   }
 }
 
+const stage = process.argv[2] ?? "code";
+if (!["code", "security"].includes(stage)) throw new Error(`Unknown fixture stage: ${stage}`);
 let results;
 try {
-  run(packageManager, ["run", "check"]);
-  const playwright = fileURLToPath(
-    new URL("../node_modules/@playwright/test/cli.js", import.meta.url),
-  );
-  run(process.execPath, [
-    playwright,
-    "install",
-    ...(process.env.CI ? ["--with-deps"] : []),
-    "chromium",
-  ]);
+  if (stage === "code") {
+    run(packageManager, ["run", "check"]);
+    const playwright = fileURLToPath(
+      new URL("../node_modules/@playwright/test/cli.js", import.meta.url),
+    );
+    run(process.execPath, [
+      playwright,
+      "install",
+      ...(process.env.CI ? ["--with-deps"] : []),
+      "chromium",
+    ]);
+  }
   results = await mkdtemp(join(tmpdir(), "starter-ci-"));
   const output = join(results, "fixtures.txt");
-  run(packageManager, ["run", "test:smoke", "--", "--offline"], {
-    ...process.env,
-    STARTER_SMOKE_FIXTURES_OUTPUT: output,
-  });
-  const fixtures = await readFile(output, "utf8");
-  run(packageManager, ["run", "test:e2e"], {
-    ...process.env,
-    CI: "1",
-    STARTER_SMOKE_FIXTURES: fixtures,
-    STARTER_VINEXT_FIXTURE: join(fixtures, "vinext-nav"),
-    STARTER_TANSTACK_FIXTURE: join(fixtures, "tanstack-start-nav"),
-  });
-  run("npm", ["pack", "--dry-run"]);
-  console.log("CI quality gate passed.");
+  run(
+    packageManager,
+    ["run", "test:smoke", "--", "--offline", ...(stage === "security" ? ["--security-only"] : [])],
+    {
+      ...process.env,
+      STARTER_SMOKE_FIXTURES_OUTPUT: output,
+    },
+  );
+  if (stage === "code") {
+    const fixtures = await readFile(output, "utf8");
+    run(packageManager, ["run", "test:e2e"], {
+      ...process.env,
+      CI: "1",
+      STARTER_SMOKE_FIXTURES: fixtures,
+      STARTER_VINEXT_FIXTURE: join(fixtures, "vinext-nav"),
+      STARTER_TANSTACK_FIXTURE: join(fixtures, "tanstack-start-nav"),
+    });
+    run("npm", ["pack", "--dry-run"]);
+  }
+  console.log(`Fixture ${stage} gate passed.`);
 } catch (error) {
   console.error(error.message);
   process.exitCode = error.exitCode ?? 1;

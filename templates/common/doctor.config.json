@@ -1,6 +1,6 @@
 {
   "scope": "full",
-  "lint": false,
+  "lint": true,
   "ignore": {
     "files": [
       "public/**",

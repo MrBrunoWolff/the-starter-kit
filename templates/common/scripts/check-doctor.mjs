@@ -10,6 +10,7 @@ const result = spawnSync(
   manager,
   [
     "run",
+    ...(manager === "npm" ? ["--silent"] : []),
     "doctor",
     ...(manager === "npm" ? ["--"] : []),
     "--json",

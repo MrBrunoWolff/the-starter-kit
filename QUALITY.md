@@ -1,7 +1,7 @@
 # Quality validation
 
 This repository uses the **rich** validation tier. Install with the frozen lockfile,
-using Bun 1.4.2 and Node 24. Run `bun run check:ci` before committing or opening a PR.
+using Bun 1.4.2 and Node 24. Run `npm run check:ci` before committing or opening a PR.
 The command runs every configured stage and reports all stage results, even when one fails.
 `check` validates code without rewriting tracked files; use the separate formatter or lint fix
 commands to apply corrections.

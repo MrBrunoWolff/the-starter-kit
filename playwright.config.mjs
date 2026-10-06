@@ -20,7 +20,7 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "node node_modules/vite/bin/vite.js preview --port 4411",
+      command: "node node_modules/vite/bin/vite.js preview --port 4411 --strictPort",
       cwd: process.env.STARTER_VINEXT_FIXTURE ?? join(fixtures, "vinext-nav"),
       wait: { stdout: /Local:/ },
       stdout: "pipe",
@@ -28,7 +28,7 @@ export default defineConfig({
       timeout: 120000,
     },
     {
-      command: "node node_modules/vite/bin/vite.js preview --port 4412",
+      command: "node node_modules/vite/bin/vite.js preview --port 4412 --strictPort",
       cwd: process.env.STARTER_TANSTACK_FIXTURE ?? join(fixtures, "tanstack-start-nav"),
       wait: { stdout: /Local:/ },
       stdout: "pipe",

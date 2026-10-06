@@ -163,8 +163,14 @@ for (const [framework, port] of [
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.goto(`http://localhost:${port}/page-2`);
     await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
+    // A native modified click needs the document in the foreground.
+    await page.bringToFront();
+    await expect.poll(() => page.evaluate(() => document.hasFocus())).toBe(true);
+    // Native background tabs may have no opener, so observe the browser context.
     const popup = context.waitForEvent("page");
-    await page.getByRole("link", { name: "Page 3", exact: true }).click({ modifiers: ["Control"] });
+    await page
+      .getByRole("link", { name: "Page 3", exact: true })
+      .click({ modifiers: ["ControlOrMeta"] });
     const opened = await popup;
     await opened.waitForURL("**/page-3");
     expect(opened.url()).toContain("/page-3");

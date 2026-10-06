@@ -12,7 +12,7 @@ Use the three-day package-age baseline for tooling; keep the selected framework 
 
 ## CI validation contract
 
-Run `bun run check:ci` before committing or opening a PR. Read [QUALITY.md](QUALITY.md)
+Run `npm run check:ci` before committing or opening a PR. Read [QUALITY.md](QUALITY.md)
 and `quality.config.json` for the repository’s tier and stage commands. A fast code check
 does not replace the full CI contract. Preserve blocking security checks and the three-day
 package-age policy. Use formatter/fix commands separately from validation.

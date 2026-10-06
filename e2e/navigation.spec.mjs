@@ -159,26 +159,53 @@ for (const [framework, port] of [
       await context.close();
     }
   });
-  test(`${framework}: reduced motion and modified click`, async ({ page, context }) => {
-    await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.goto(`http://localhost:${port}/page-2`);
-    await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
-    // A native modified click needs the document in the foreground.
-    await page.bringToFront();
-    await expect.poll(() => page.evaluate(() => document.hasFocus())).toBe(true);
-    // Native background tabs may have no opener, so observe the browser context.
-    const popup = context.waitForEvent("page");
-    await page
-      .getByRole("link", { name: "Page 3", exact: true })
-      .click({ modifiers: ["ControlOrMeta"] });
-    const opened = await popup;
-    await opened.waitForURL("**/page-3");
-    expect(opened.url()).toContain("/page-3");
-    expect(page.url()).toContain("/page-2");
-    await opened.close();
-    await page.getByRole("link", { name: "Page 1", exact: true }).click();
-    await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 1");
-    await expect(page.locator(".page-transition")).toHaveCSS("animation-name", "none");
+  test(`${framework}: reduced motion and modified click`, async ({ playwright }) => {
+    // Native windows/tabs need the full browser implementation, rather than
+    // the separate headless shell. Keep its window/input state isolated.
+    const browser = await playwright.chromium.launch({ channel: "chromium" });
+    try {
+      const context = await browser.newContext({ reducedMotion: "reduce" });
+      const page = await context.newPage();
+      await page.goto(`http://localhost:${port}/page-2`);
+      await expect(page.locator("nav")).toHaveAttribute("data-ready", "");
+      await page.bringToFront();
+      await expect.poll(() => page.evaluate(() => document.hasFocus())).toBe(true);
+      // Native background tabs may have no opener, so observe the browser context.
+      await page.evaluate(() => {
+        document.addEventListener(
+          "click",
+          (event) => {
+            window.nativeClick = event;
+          },
+          { capture: true, once: true },
+        );
+      });
+      // Hold the modifier through the browser's native tab-creation event,
+      // rather than restoring keyboard state immediately after mouse dispatch.
+      await page.keyboard.down("ControlOrMeta");
+      const [opened] = await Promise.all([
+        context.waitForEvent("page"),
+        (async () => {
+          await page.getByRole("link", { name: "Page 3", exact: true }).click();
+          const event = await page.evaluate(() => ({
+            modified: window.nativeClick.ctrlKey || window.nativeClick.metaKey,
+            trusted: window.nativeClick.isTrusted,
+            prevented: window.nativeClick.defaultPrevented,
+          }));
+          expect(event).toEqual({ modified: true, trusted: true, prevented: false });
+        })(),
+      ]);
+      await page.keyboard.up("ControlOrMeta");
+      await opened.waitForURL("**/page-3");
+      expect(opened.url()).toContain("/page-3");
+      expect(page.url()).toContain("/page-2");
+      await opened.close();
+      await page.getByRole("link", { name: "Page 1", exact: true }).click();
+      await expect(page.getByRole("heading", { level: 1 })).toHaveText("Page 1");
+      await expect(page.locator(".page-transition")).toHaveCSS("animation-name", "none");
+    } finally {
+      await browser.close();
+    }
   });
   test(`${framework}: installable manifest and offline fallback`, async ({ page, context }) => {
     await page.goto(`http://localhost:${port}`);

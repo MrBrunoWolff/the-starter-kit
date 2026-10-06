@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { scaffold } from "../lib/scaffold.mjs";
-import { resolveDependencies } from "../lib/dependencies.mjs";
+import { resolveDependencies, testedCompatibilityDate } from "../lib/dependencies.mjs";
 
 const cli = new URL("../bin/the-starter-kit.mjs", import.meta.url);
 const fixture = async () => join(await mkdtemp(join(tmpdir(), "starter-kit-")), "my-app");
@@ -16,6 +16,18 @@ const options = {
   install: false,
   offline: true,
 };
+
+test("default compatibility date stays with the tested runtime snapshot", async () => {
+  for (const framework of ["vinext", "tanstack-start"]) {
+    const directory = await fixture();
+    await scaffold({ ...options, directory, framework });
+    const config = await readFile(
+      join(directory, framework === "vinext" ? "cloudflare.config.ts" : "wrangler.jsonc"),
+      "utf8",
+    );
+    assert.ok(config.includes(testedCompatibilityDate));
+  }
+});
 
 for (const framework of ["vinext", "tanstack-start"]) {
   for (const navigation of [true, false]) {

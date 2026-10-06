@@ -48,6 +48,8 @@ Generation resolves the selected framework's latest npm release and pins exact v
 
 vinext apps temporarily exempt only [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm): its build-time glob dependency includes braces, which has no published patch. This accepts the nested-pattern denial-of-service risk in tooling; avoid processing untrusted glob patterns. Bun uses its advisory-ID ignore flag; npm uses `scripts/audit.mjs` to filter that exact advisory. All other high/critical advisories and audit errors still fail. Remove the exception when upstream publishes a fix.
 
+Generated apps also scope Sharp 0.35.5 to Miniflare and Seroval/Seroval Plugins 1.6.8 to Solid. These patched releases satisfy the three-day age guard and replace vulnerable upstream pins. The overrides use npm's nested object form so both package managers honor them; remove each override when upstream requests a patched version.
+
 ## Maintainer checks
 
 ```sh
@@ -68,3 +70,9 @@ Lighthouse measures production previews or deployed URLs. Vite/workerd preview r
 Publishing uses npm trusted publishing (OIDC), with no `NPM_TOKEN` or `NODE_AUTH_TOKEN` secret. In the npm package settings, configure a GitHub Actions trusted publisher with owner `MrBrunoWolff`, repository `the-starter-kit`, workflow filename `ci.yml`, and no environment name. Enable the allowed action for direct `npm publish`. See the [npm trusted publishing guide](https://docs.npmjs.com/trusted-publishers/). The package must exist before configuring its trusted publisher; this package has already been published.
 
 For a manual release, run the maintainer checks, inspect `npm pack --dry-run`, authenticate with npm, then run `npm publish --access public`.
+
+Generated Workers use the compatibility date validated with the dependency snapshot
+in `lib/dependencies.mjs`, rather than the current calendar date. This keeps local
+production previews compatible with the age-guarded workerd binary. Update the
+date together with a validated runtime snapshot; scaffold callers can explicitly
+select another date when their runtime supports it.

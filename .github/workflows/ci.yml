@@ -95,7 +95,7 @@ jobs:
       github.ref == 'refs/heads/main' &&
       (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 45
     concurrency:
       group: npm-publish
       cancel-in-progress: false
@@ -125,17 +125,5 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Publish if version changed
-        shell: bash
-        run: |
-          set -euo pipefail
-          package_name=$(node -p "require('./package.json').name")
-          package_version=$(node -p "require('./package.json').version")
-          # Registry/auth/network failures must fail the job, rather than look
-          # like an unpublished version or a successful release.
-          npm view "$package_name" versions --json > "$RUNNER_TEMP/npm-versions.json"
-          if node --input-type=module -e 'import { readFileSync } from "node:fs"; const versions = JSON.parse(readFileSync(process.argv[1], "utf8")); process.exit([versions].flat().includes(process.argv[2]) ? 0 : 1);' "$RUNNER_TEMP/npm-versions.json" "$package_version"; then
-            echo "$package_name@$package_version already exists; skipping publication."
-            exit 0
-          fi
-          npm publish --access public
+      - name: Publish to npm (if version changed)
+        run: node scripts/publish-npm.mjs

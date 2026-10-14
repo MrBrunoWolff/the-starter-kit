@@ -13,7 +13,7 @@ test("generated quality contract preserves both package managers and independent
     assert.deepEqual(config.stages.security, [[manager, "run", "audit"]]);
     const workflow = qualityWorkflow(manager);
     assert.ok(workflow.includes(manager === "bun" ? "bun install --frozen-lockfile" : "npm ci"));
-    assert.ok(workflow.includes("needs: [code, security]"));
+    assert.ok(workflow.includes("needs: [release-policy, code, security]"));
     assert.ok(workflow.includes("if: always()"));
     assert.ok(!workflow.includes("bun-version: latest"));
   }

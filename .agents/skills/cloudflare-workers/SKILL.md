@@ -5,7 +5,7 @@ description: Configure, develop, validate, or deploy this app on Cloudflare Work
 
 # Cloudflare Workers
 
-Read package.json and the source Cloudflare config first. vinext uses cloudflare.config.ts, Cloudflare Vite plugin v2, and cf deploy. TanStack Start uses wrangler.jsonc and the Cloudflare Vite plugin. Edit source config, never generated build output. Retrieve current framework and Cloudflare documentation before changing deployment conventions.
+Read package.json and the source Cloudflare config first. vinext uses cloudflare.config.ts, Cloudflare Vite plugin v2, and cf deploy. TanStack Start uses wrangler.jsonc and the Cloudflare Vite plugin. Only cf and @cloudflare/vite-plugin may use prereleases, and every new package resolution must be at least three days old. Edit source config, never generated build output. Retrieve current framework and Cloudflare documentation before changing deployment conventions.
 
 Use cloudflare:workers to read bindings in server code. Generate binding types with the declared cf:typegen script. Never hand-write a duplicate Env interface. New Workers use today's compatibility date, nodejs_compat, logs, and traces. Keep secrets in .dev.vars locally and platform secrets remotely. Never copy account IDs or production resource bindings from examples.
 

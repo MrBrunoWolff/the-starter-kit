@@ -89,24 +89,39 @@ test("bad options fail before writing", async () => {
     /Package manager/,
   );
 });
-test("latest resolver uses beta for vinext Cloudflare v2 and pins React protocol", async () => {
+test("only Cloudflare exceptions accept aged prereleases; React stays stable", async () => {
   const urls = [];
-  const result = await resolveDependencies(
-    "vinext",
-    false,
-    async (url) => {
-      urls.push(url);
-      return {
-        ok: true,
-        json: async () => ({ version: url.includes("/react/latest") ? "19.3.1" : "1.0.2" }),
-      };
-    },
-    0,
+  const result = await resolveDependencies("vinext", false, async (url) => {
+    urls.push(url);
+    return {
+      ok: true,
+      json: async () => ({
+        "dist-tags": { latest: "2.0.0-beta.1", beta: "2.0.0-beta.1" },
+        versions: { "1.0.2": {}, "1.0.3": {}, "2.0.0-beta.1": {} },
+        time: {
+          "1.0.2": "2025-01-01T00:00:00Z",
+          "1.0.3": new Date().toISOString(),
+          "2.0.0-beta.1": "2025-02-01T00:00:00Z",
+        },
+      }),
+    };
+  });
+  assert.ok(urls.includes("https://registry.npmjs.org/@cloudflare/vite-plugin"));
+  assert.ok(urls.every((url) => !url.endsWith("/beta")));
+  assert.equal(result.devDependencies["@cloudflare/vite-plugin"], "2.0.0-beta.1");
+  assert.equal(result.dependencies["react-server-dom-webpack"], "1.0.2");
+  assert.equal(result.dependencies["react-dom"], "1.0.2");
+  assert.equal(result.devDependencies.cf, "2.0.0-beta.1");
+});
+test("age validation fails closed and cannot be disabled", async () => {
+  await assert.rejects(resolveDependencies("vinext", true, undefined, 0), /at least 259200/);
+  await assert.rejects(
+    resolveDependencies("vinext", false, async () => ({
+      ok: true,
+      json: async () => ({ "dist-tags": { latest: "1.0.0" }, versions: { "1.0.0": {} }, time: {} }),
+    })),
+    /No stable/,
   );
-  assert.ok(urls.includes("https://registry.npmjs.org/vinext/latest"));
-  assert.ok(urls.includes("https://registry.npmjs.org/@cloudflare/vite-plugin/beta"));
-  assert.equal(result.dependencies["react-server-dom-webpack"], "19.3.1");
-  assert.equal(result.dependencies["react-dom"], "19.3.1");
 });
 test("registry errors leave the app unwritten", async () => {
   const directory = await fixture();
@@ -121,24 +136,22 @@ test("registry errors leave the app unwritten", async () => {
   );
   await assert.rejects(readdir(directory), /ENOENT/);
 });
-test("release-age policy excludes a fresh release without leaving the framework major", async () => {
+test("release-age policy also excludes fresh framework releases", async () => {
   const now = Date.now();
-  const result = await resolveDependencies("tanstack-start", false, async (url) => ({
+  const result = await resolveDependencies("tanstack-start", false, async () => ({
     ok: true,
-    json: async () =>
-      url.endsWith("/latest")
-        ? { version: "2.1.1" }
-        : {
-            versions: { "1.9.9": {}, "2.1.0": {}, "2.1.1": {} },
-            time: {
-              "1.9.9": new Date(now - 300001000).toISOString(),
-              "2.1.0": new Date(now - 400000000).toISOString(),
-              "2.1.1": new Date(now - 1000).toISOString(),
-            },
-          },
+    json: async () => ({
+      "dist-tags": { latest: "2.1.1" },
+      versions: { "1.9.9": {}, "2.1.0": {}, "2.1.1": {} },
+      time: {
+        "1.9.9": new Date(now - 300001000).toISOString(),
+        "2.1.0": new Date(now - 400000000).toISOString(),
+        "2.1.1": new Date(now - 1000).toISOString(),
+      },
+    }),
   }));
   assert.equal(result.devDependencies.vite, "2.1.0");
-  assert.equal(result.dependencies["@tanstack/react-start"], "2.1.1");
+  assert.equal(result.dependencies["@tanstack/react-start"], "2.1.0");
 });
 test("CLI works through Node with flags and exits nonzero for ambiguous unattended use", async () => {
   const directory = await fixture();

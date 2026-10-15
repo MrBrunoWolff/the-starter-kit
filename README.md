@@ -54,3 +54,13 @@ See the [maintenance guide](docs/maintenance.md) for dependency policies, fresh-
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Privacy notice in generated apps
+
+Generated apps include a standalone `/privacy/` demo notice, served from
+`public/privacy/index.html`, without adding a footer or navigation item. It
+describes the default demo and identifies Wolff Solutions as the kit developer.
+Before publishing a derived app, replace that notice with the actual operator,
+contact address, data flows, providers and retention practices. Add its canonical
+URL to your sitemap once the deployment origin is known; do not copy a sibling
+app’s domain or assume Wolff Solutions operates a third-party deployment.

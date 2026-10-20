@@ -40,7 +40,25 @@ for (const framework of ["vinext", "tanstack-start"]) {
       assert.ok(
         pkg.scripts.deploy.includes(framework === "vinext" ? "cf deploy" : "wrangler deploy"),
       );
-      assert.equal((await readdir(join(directory, ".agents/skills"))).length, 8);
+      assert.equal((await readdir(join(directory, ".agents/skills"))).length, 10);
+      const auditSkill = ".agents/skills/security-audit/SKILL.md";
+      assert.equal(
+        await readFile(join(directory, auditSkill), "utf8"),
+        await readFile(join(directory, ".claude/skills/security-audit/SKILL.md"), "utf8"),
+      );
+      const skillsLock = JSON.parse(await readFile(join(directory, "skills-lock.json"), "utf8"));
+      assert.equal(skillsLock.skills["security-audit"].source, "cloudflare/security-audit-skill");
+      for (const skill of Object.keys(skillsLock.skills)) {
+        assert.equal(
+          await readFile(join(directory, ".agents/skills", skill, "SKILL.md"), "utf8"),
+          await readFile(join(directory, ".claude/skills", skill, "SKILL.md"), "utf8"),
+        );
+      }
+      assert.equal(
+        skillsLock.skills["modern-web-guidance"].source,
+        "GoogleChrome/modern-web-guidance",
+      );
+      assert.equal(skillsLock.skills["code-review"].source, "mattpocock/skills");
       const pages = await readFile(join(directory, "src/components/sample-pages.tsx"), "utf8");
       assert.equal(pages.includes("Page2"), navigation);
       const files = await readdir(join(directory, "src/components"));

@@ -1,14 +1,39 @@
 ---
 name: web-design-guidelines
-description: Review interface accessibility, navigation, forms, responsive layout, and motion. Use when implementing or reviewing web UI.
+description: Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices".
+metadata:
+  author: vercel
+  version: "1.0.0"
+  argument-hint: <file-or-pattern>
 ---
 
-# Web Design Guidelines
+# Web Interface Guidelines
 
-Review the affected routes at desktop and mobile widths. Check semantic landmarks, one primary heading, accessible names, keyboard operation, visible focus, readable contrast in both themes, and touch targets. Preserve native modified-click behavior on links. Keep skip links working and avoid fixed controls obscuring content or safe areas.
+Review files for compliance with Web Interface Guidelines.
 
-For this starter, navigation stays top-right above 768px and bottom-center below it. Its opaque background uses the page token. Keep the theme control outside the transition wrapper. Respect prefers-reduced-motion and system theme, and verify direct URLs and browser Back.
+## How It Works
 
-Consult current https://www.w3.org/WAI/ARIA/apg/ for interaction patterns and https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md for UI review guidance. Report actionable findings with file and line references.
+1. Fetch the latest guidelines from the source URL below
+2. Read the specified files (or prompt user for files/pattern)
+3. Check against all rules in the fetched guidelines
+4. Output findings in the terse `file:line` format
 
-Adapted from the fleet's web-design-guidelines workflow.
+## Guidelines Source
+
+Fetch fresh guidelines before each review:
+
+```
+https://raw.githubusercontent.com/vercel-labs/web-interface-guidelines/main/command.md
+```
+
+Use WebFetch to retrieve the latest rules. The fetched content contains all the rules and output format instructions.
+
+## Usage
+
+When a user provides a file or pattern argument:
+1. Fetch guidelines from the source URL above
+2. Read the specified files
+3. Apply all rules from the fetched guidelines
+4. Output findings using the format specified in the guidelines
+
+If no files specified, ask the user which files to review.

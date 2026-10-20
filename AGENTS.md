@@ -16,3 +16,15 @@ Run `npm run check:ci` before committing or opening a PR. Read [QUALITY.md](QUAL
 and `quality.config.json` for the repository’s tier and stage commands. A fast code check
 does not replace the full CI contract. Preserve blocking security checks and the three-day
 package-age policy. Use formatter/fix commands separately from validation.
+
+## Security audits
+
+Use `.agents/skills/security-audit/SKILL.md` for source security audits and vulnerability reviews. Follow its verification and reporting workflow; installing the skill does not run an audit.
+
+## Skill ownership and UI review
+
+Generic browser guidance and interface review use the unmodified upstream `modern-web-guidance` and `web-design-guidelines` bundles. Keep project UI rules here: navigation is top-right above 768px and bottom-center below it, its opaque background uses the page token, and the theme control stays outside the transition wrapper. Verify keyboard access, modified link clicks, direct URLs and browser Back at both widths. Prefer Baseline widely available features, feature-detect newer APIs and respect reduced motion.
+
+The starter kit owns `cloudflare-workers`, `pwa-readiness`, `react-composition` and `web-quality` in `templates/common/.agents/skills`. Refresh local copies from that canonical template; update third-party bundles and their locks from their recorded upstream sources.
+
+After changing default skills, follow [skill ownership](docs/skills.md), run `npm run skills:sync`, then verify with `npm run skills:check`. Template defaults own the root mirrors; retain root-only workflows.

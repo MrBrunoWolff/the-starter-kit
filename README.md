@@ -51,6 +51,9 @@ For development, clone the repository and run `bun install --frozen-lockfile`. T
 
 See the [maintenance guide](docs/maintenance.md) for dependency policies, fresh-fixture validation and releases, and [validation notes](docs/validation.md) for recorded browser/performance checks. Run `npm run check:ci` before every commit or push. It validates all four framework/navigation combinations; the fast check does not replace it.
 
+Skill publishers, local ownership and offline mirror commands are documented in
+[skill ownership](docs/skills.md).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).

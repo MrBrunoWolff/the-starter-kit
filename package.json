@@ -50,10 +50,10 @@
     "check:security": "node scripts/quality.mjs security"
   },
   "devDependencies": {
-    "@playwright/test": "^1.63.0",
+    "@playwright/test": "^1.64.1",
     "lighthouse": "^13.5.0",
-    "oxfmt": "0.72.0",
-    "oxlint": "1.87.0"
+    "oxfmt": "0.74.0",
+    "oxlint": "1.89.0"
   },
   "engines": {
     "node": ">=22.19"

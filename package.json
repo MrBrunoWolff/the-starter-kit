@@ -30,6 +30,9 @@
     "LICENSE",
     "docs"
   ],
+  "overrides": {
+    "zod": "4.6.7"
+  },
   "type": "module",
   "scripts": {
     "skills:check": "node scripts/sync-skills.mjs --check",

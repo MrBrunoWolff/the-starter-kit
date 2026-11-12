@@ -22,6 +22,10 @@ vinext apps temporarily exempt only [GHSA-vfj7-8cjw-p6xm](https://github.com/adv
 
 Generated apps also scope Sharp 0.35.5 to Miniflare and Seroval/Seroval Plugins 1.6.8 to Solid. These patched releases satisfy the three-day age guard and replace vulnerable upstream pins. The overrides use npm's nested object form so both package managers honor them; remove each override when upstream requests a patched version.
 
+Generated apps scope minimatch 11.0.5 to ESLint and its config-array package to address [GHSA-g3hv-75wg-m249](https://github.com/advisories/GHSA-g3hv-75wg-m249). This crosses those packages' declared minimatch 10 range, so validate both generated frameworks and package managers when changing it; remove the override when their upstream dependencies adopt a patched compatible release.
+
+Generated vinext apps scope fflate 0.7.5 to Satori and its OpenType dependency for [GHSA-px8p-9vwx-vf98](https://github.com/advisories/GHSA-px8p-9vwx-vf98). The kit itself scopes fast-uri 3.1.9 to AJV for the Lighthouse dependency tree. Remove these overrides when upstream selects patched versions.
+
 ## Maintainer checks
 
 ```sh

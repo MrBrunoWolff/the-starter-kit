@@ -66,6 +66,13 @@ for (const framework of ["vinext", "tanstack-start"]) {
       assert.equal(files.includes("base-shell.tsx"), !navigation);
       assert.equal(pkg.dependencies["react-dom"], pkg.dependencies.react);
       assert.equal(pkg.overrides.undici, "7.30.1");
+      assert.equal(pkg.overrides.eslint.minimatch, "11.0.5");
+      assert.equal(pkg.overrides["@eslint/config-array"].minimatch, "11.0.5");
+      assert.equal(pkg.overrides.satori?.fflate, framework === "vinext" ? "0.7.5" : undefined);
+      assert.equal(
+        pkg.overrides["@shuding/opentype.js"]?.fflate,
+        framework === "vinext" ? "0.7.5" : undefined,
+      );
       assert.ok((await readFile(join(directory, ".gitignore"), "utf8")).includes("node_modules"));
       const manifest = JSON.parse(
         await readFile(join(directory, "public/manifest.webmanifest"), "utf8"),

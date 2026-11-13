@@ -1,6 +1,6 @@
 {
   "name": "the-starter-kit",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "The Wolff fleet starter: vinext or TanStack Start, one design, Cloudflare Workers, and quality tools.",
   "keywords": [
     "bun",

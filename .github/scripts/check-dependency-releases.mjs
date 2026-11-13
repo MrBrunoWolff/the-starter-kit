@@ -5,6 +5,15 @@ import { fileURLToPath } from "node:url";
 
 export const MINIMUM_RELEASE_AGE_SECONDS = 259200;
 export const PRERELEASE_EXCEPTIONS = new Set(["cf", "@cloudflare/vite-plugin"]);
+// Exact transitive pins of the tested Lighthouse and Cloudflare toolchains.
+export const PINNED_TRANSITIVE_PRERELEASES = new Set([
+  "chromium-bidi@157.0.8090-0",
+  "miniflare@5.20261103.0-beta",
+  "miniflare@5.20261104.0-beta",
+  "miniflare@5.20261110.0-beta",
+]);
+const allowedPrereleaseResolution = (name, version) =>
+  PRERELEASE_EXCEPTIONS.has(name) || PINNED_TRANSITIVE_PRERELEASES.has(`${name}@${version}`);
 const versionPattern = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const dependencySections = [
   "dependencies",
@@ -138,7 +147,10 @@ export function changedDependencies(before, after) {
     .filter(([key]) => !before.resolutions.has(key))
     .map(([, value]) => value);
   for (const dependency of changed) {
-    if (isPrerelease(dependency.version) && !PRERELEASE_EXCEPTIONS.has(dependency.name))
+    if (
+      isPrerelease(dependency.version) &&
+      !allowedPrereleaseResolution(dependency.name, dependency.version)
+    )
       problems.push(`New prerelease resolution: ${dependency.name}@${dependency.version}`);
   }
   return { changed, problems };
@@ -152,7 +164,7 @@ export async function checkReleaseAges(
   const problems = [];
   const cache = new Map();
   for (const { name, version, source = "npm" } of dependencies) {
-    if (isPrerelease(version) && !PRERELEASE_EXCEPTIONS.has(name)) continue; // Rejected by changedDependencies.
+    if (isPrerelease(version) && !allowedPrereleaseResolution(name, version)) continue; // Rejected by changedDependencies.
     const key = `${source}:${name}`;
     if (!cache.has(key)) cache.set(key, Promise.resolve(fetchTimes(name, source)));
     const times = await cache.get(key);
@@ -163,7 +175,7 @@ export async function checkReleaseAges(
     }
     if (published > now) problems.push(`Publication time is in the future: ${name}@${version}`);
     else if (
-      (!securityUpdate || PRERELEASE_EXCEPTIONS.has(name)) &&
+      (!securityUpdate || isPrerelease(version)) &&
       now - published < MINIMUM_RELEASE_AGE_SECONDS * 1000
     ) {
       problems.push(`Release is younger than three days: ${name}@${version} (${times[version]})`);
@@ -231,7 +243,7 @@ async function main() {
   if (problems.length) process.exitCode = 1;
   else
     console.log(
-      `Dependency release policy passed: ${changed.length} new resolutions checked; ${securityUpdate ? "security age exception" : "three-day minimum"}; new prereleases forbidden except cf and @cloudflare/vite-plugin.`,
+      `Dependency release policy passed: ${changed.length} new resolutions checked; ${securityUpdate ? "security age exception" : "three-day minimum"}; prereleases limited to cf, @cloudflare/vite-plugin and explicitly pinned transitive versions.`,
     );
 }
 

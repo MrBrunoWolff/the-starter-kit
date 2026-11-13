@@ -66,6 +66,8 @@ for (const framework of ["vinext", "tanstack-start"]) {
       assert.equal(files.includes("base-shell.tsx"), !navigation);
       assert.equal(pkg.dependencies["react-dom"], pkg.dependencies.react);
       assert.equal(pkg.overrides.undici, "7.30.1");
+      assert.equal(pkg.overrides.seroval, "1.8.0");
+      assert.equal(pkg.overrides["solid-js"]["seroval-plugins"], "1.8.0");
       assert.equal(pkg.overrides.eslint.minimatch, "11.0.5");
       assert.equal(pkg.overrides["@eslint/config-array"].minimatch, "11.0.5");
       assert.equal(pkg.overrides.satori?.fflate, framework === "vinext" ? "0.7.5" : undefined);

@@ -5,7 +5,8 @@
       "source": "mattpocock/skills",
       "sourceType": "github",
       "skillPath": "skills/engineering/code-review/SKILL.md",
-      "computedHash": "c2745e2be960b82b9fddd82cf45265f42431e7b045c403f297b25f0f311e9210"
+      "computedHash": "ce86b40a3d1648a0018b712f0c70704e6c2316b2a9b9e915ab116916a31273dc",
+      "commit": "d65391149dbb5fe76478e76fa8d5122b2aa5a70e"
     },
     "migrate-to-vinext": {
       "source": "cloudflare/vinext",
@@ -17,31 +18,36 @@
       "source": "GoogleChrome/modern-web-guidance",
       "sourceType": "github",
       "skillPath": "skills/modern-web-guidance/SKILL.md",
-      "computedHash": "8ea2818acb8fc266fd58123427700e9fe424e03f9913089ee4f3d1b041d72841"
+      "computedHash": "1a97aea5d1c5abbf1b7b022ae7a2833a014627f741ba3cbd8cb6249a3ab359db",
+      "commit": "2b4aa13a72dd47cd135b06ce5abfccd92e19b24f"
     },
     "security-audit": {
       "source": "cloudflare/security-audit-skill",
       "sourceType": "github",
       "skillPath": "skills/security-audit/SKILL.md",
-      "computedHash": "98b97aad2873b3b9a8e064007c25e7827b493ba27fda8bfbdb41dab586767973"
+      "computedHash": "8513eb3b2c39b8d05ef4f47b32ef4d18280b93a5efb91d8df6272f7435034af5",
+      "commit": "c1c8a8c1471069fb0e188eeaff69b8e8db6564a8"
     },
     "web-design-guidelines": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
       "skillPath": "skills/web-design-guidelines/SKILL.md",
-      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
+      "computedHash": "5994e4cfd86144903d2ba750f862b9e36af15e3297aac983679e347b99f6cb71",
+      "commit": "5a37a6329fbad3666c3207392a6a7c0110e92efb"
     },
     "web-perf": {
       "source": "cloudflare/skills",
       "sourceType": "github",
       "skillPath": "skills/web-perf/SKILL.md",
-      "computedHash": "fa0a7b78991034a3840eac6d5f07c72eacc73fd68898e0238fbb83b7b4d4d884"
+      "computedHash": "2716bf9bfafe4d8407b55c5213a143aea248686c4af92f8b43fc35327eaae41d",
+      "commit": "14472d57ac968d1a0322a568077277209b259183"
     },
     "wf-web-lighthouse": {
       "source": "MrBrunoWolff/the-skills",
       "sourceType": "github",
       "skillPath": "skills/wf-web-lighthouse/SKILL.md",
-      "computedHash": "16ae8c03462b37dc82cfccb361bd976c571d458b61d60c6f98fe3b169599f3aa"
+      "computedHash": "fe673dc4994f918e38734dbca37c36839a6e92f987a8d7a9e7cc87fbc4f5db94",
+      "commit": "6a0183d03dcef3b4db7a779b224f2e7f6764f751"
     }
   }
 }

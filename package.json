@@ -50,10 +50,10 @@
     "check:security": "node scripts/quality.mjs security"
   },
   "devDependencies": {
-    "@playwright/test": "^1.65.0",
+    "@playwright/test": "^1.65.1",
     "lighthouse": "^13.6.0",
-    "oxfmt": "0.78.0",
-    "oxlint": "1.93.0"
+    "oxfmt": "0.79.0",
+    "oxlint": "1.94.0"
   },
   "overrides": {
     "ajv": {
